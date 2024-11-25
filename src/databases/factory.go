@@ -3,9 +3,9 @@ package databases
 import (
 	"errors"
 	"fmt"
-	"github.com/muratovdias/url-shortner/internal/config"
-	"github.com/muratovdias/url-shortner/internal/databases/drivers"
-	"github.com/muratovdias/url-shortner/internal/databases/drivers/sqlite"
+	"github.com/muratovdias/url-shortner/src/config"
+	"github.com/muratovdias/url-shortner/src/databases/drivers"
+	"github.com/muratovdias/url-shortner/src/databases/drivers/sqlite"
 )
 
 func New(conf config.DataStore) (ds drivers.DataStore, err error) {

@@ -1,6 +1,6 @@
 package service
 
-import "github.com/muratovdias/url-shortner/internal/service/shortner"
+import "github.com/muratovdias/url-shortner/src/service/shortner"
 
 type Service struct {
 	UrlShortener shortner.UrlShortener

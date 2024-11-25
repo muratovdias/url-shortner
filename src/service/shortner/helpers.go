@@ -10,6 +10,10 @@ import (
 	"unicode/utf8"
 )
 
+var (
+	ErrInvalidUrl = errors.New("invalid url")
+)
+
 func (u *urlShortenerImpl) validateURL(input string) error {
 	if utf8.RuneCountInString(input) == 0 {
 		return errors.New("URL cannot be empty")

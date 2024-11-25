@@ -14,7 +14,7 @@ type Configuration struct {
 
 type HttpServer struct {
 	Address     string        `env:"DEBUG" envDefault:"localhost:8080"`
-	Timeout     time.Duration `env:"DEBUG" envDefault:"4s"`
+	Timeout     time.Duration `env:"DEBUG" envDefault:"10s"`
 	IdleTimeout time.Duration `env:"DEBUG" envDefault:"60s"`
 }
 

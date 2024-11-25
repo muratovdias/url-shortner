@@ -2,8 +2,8 @@ package http
 
 import (
 	"github.com/go-chi/chi/v5"
-	v1 "github.com/muratovdias/url-shortner/internal/server/http/v1"
-	"github.com/muratovdias/url-shortner/internal/service"
+	v1 "github.com/muratovdias/url-shortner/src/server/http/v1"
+	"github.com/muratovdias/url-shortner/src/service"
 )
 
 type Router interface {
@@ -24,6 +24,7 @@ func (r *RouterImpl) Routes() chi.Router {
 
 	for _, rout := range []Router{
 		v1.New("/api/v1", r.service),
+		NewSwaggerResource("/swagger", "/swagger"),
 	} {
 		router.Mount(rout.Path(), rout.Routes())
 	}

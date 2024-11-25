@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/muratovdias/url-shortner/internal/config"
-	"github.com/muratovdias/url-shortner/internal/databases/drivers"
+	"github.com/muratovdias/url-shortner/src/config"
+	"github.com/muratovdias/url-shortner/src/databases/drivers"
 	"time"
 )
 
@@ -83,16 +83,13 @@ func (s *sqliteDB) Close(ctx context.Context) error {
 func (s *sqliteDB) createTable() error {
 	stmt, err := s.db.Prepare(`
 	CREATE TABLE IF NOT EXISTS url(
-		alias TEXT PRIMARY KEY,
-        url TEXT NOT NULL,
-        user_id TEXT NOT NULL,
+		url TEXT UNIQUE NOT NULL,
+	    alias TEXT UNIQUE NOT NULL,
         clicks INTEGER DEFAULT 0,
         last_access_time DATETIME,
-        expirу_date DATETIME,
-    	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        expire_date DATETIME	
 	);
-	CREATE INDEX IF NOT EXISTS idx_alias ON url(alias);
-	`)
+`)
 	if err != nil {
 		return err
 	}

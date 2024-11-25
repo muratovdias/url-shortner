@@ -5,6 +5,7 @@ import "time"
 type Link struct {
 	Url        string    `json:"url,omitempty"`
 	Alias      string    `json:"alias,omitempty"`
+	UrlStats   UrlStats  `json:"url_stats,omitempty"`
 	ExpireTime time.Time `json:"expire_time"`
 }
 
