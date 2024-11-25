@@ -18,5 +18,6 @@ type Base interface {
 }
 
 type UrlShortenerRepo interface {
-	SaveAlias(ctx context.Context, link models.Link) error
+	Save(ctx context.Context, userID string, link models.Link) error
+	GetUrlsList(ctx context.Context, userID string) ([]models.Link, error)
 }

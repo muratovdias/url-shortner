@@ -12,22 +12,25 @@ type urlShortnerRepo struct {
 	db *sql.DB
 }
 
-func (u *urlShortnerRepo) SaveAlias(ctx context.Context, link models.Link) error {
+func (u *urlShortnerRepo) GetUrlsList(ctx context.Context, userID string) ([]models.Link, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (u *urlShortnerRepo) Save(ctx context.Context, userID string, link models.Link) error {
 	query := `
-		INSERT INTO url (alias, url, expire_date)
-		VALUES (?, ?, ?)
+		INSERT INTO url (alias, url, user_id, expire_date)
+		VALUES (?, ?, ?, ?)
 	`
 
-	// Prepare the statement for execution
 	stmt, err := u.db.PrepareContext(ctx, query)
 	if err != nil {
 		return fmt.Errorf("failed to prepare query: %w", err)
 	}
-	// Ensure that the prepared statement is closed after execution
+
 	defer stmt.Close()
 
-	// Execute the prepared statement with the provided values
-	_, err = stmt.ExecContext(ctx, link.Alias, link.Url, link.ExpireTime)
+	_, err = stmt.ExecContext(ctx, link.Alias, link.Url, userID, link.ExpireTime)
 	if err != nil {
 		return fmt.Errorf("failed to insert short URL: %w", err)
 	}

@@ -10,13 +10,19 @@ import (
 )
 
 type UrlShortener interface {
-	Save(ctx context.Context, url string) (models.Link, error)
+	Save(ctx context.Context, userID, url string) (models.Link, error)
+	GetUrlsList(ctx context.Context, userID string) ([]models.Link, error)
 }
 
 type urlShortenerImpl struct {
 	repo   drivers.UrlShortenerRepo
 	regexp *regexp.Regexp
 	log    *slog.Logger
+}
+
+func (u *urlShortenerImpl) GetUrlsList(ctx context.Context, userID string) ([]models.Link, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func NewUrlShortener(repo drivers.UrlShortenerRepo, log *slog.Logger) UrlShortener {
@@ -27,19 +33,19 @@ func NewUrlShortener(repo drivers.UrlShortenerRepo, log *slog.Logger) UrlShorten
 	}
 }
 
-func (u *urlShortenerImpl) Save(ctx context.Context, url string) (models.Link, error) {
+func (u *urlShortenerImpl) Save(ctx context.Context, userID, url string) (models.Link, error) {
 	if err := u.validateURL(url); err != nil {
 		u.log.Error("invalid URL", err)
 		return models.Link{}, err
 	}
 
-	alias, err := generateShortURL(url)
+	alias, err := generateShortURL()
 	if err != nil {
 		u.log.Error("failed to generate short url", err)
 		return models.Link{}, err
 	}
 
-	if err = u.repo.SaveAlias(ctx, models.Link{
+	if err = u.repo.Save(ctx, userID, models.Link{
 		Url:        url,
 		Alias:      alias,
 		ExpireTime: time.Now().Add(time.Hour * 24 * 30), // 30 дней

@@ -84,7 +84,8 @@ func (s *sqliteDB) createTable() error {
 	stmt, err := s.db.Prepare(`
 	CREATE TABLE IF NOT EXISTS url(
 		alias TEXT PRIMARY KEY,
-        url TEXT PRIMARY KEY,
+        url TEXT NOT NULL,
+        user_id TEXT NOT NULL,
         clicks INTEGER DEFAULT 0,
         last_access_time DATETIME,
         expirу_date DATETIME,

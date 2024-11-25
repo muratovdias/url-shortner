@@ -31,17 +31,18 @@ func (u *urlShortenerImpl) validateURL(input string) error {
 	return nil
 }
 
-func generateShortURL(url string) (string, error) {
+func generateShortURL() (string, error) {
 	const aliasLength = 6
+	const alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 	var sb strings.Builder
 	for i := 0; i < aliasLength; i++ {
-		index, err := rand.Int(rand.Reader, big.NewInt(int64(len(url))))
+		index, err := rand.Int(rand.Reader, big.NewInt(int64(len(alphanumeric))))
 		if err != nil {
 			return "", fmt.Errorf("error generating random number: %v", err)
 		}
 
-		sb.WriteByte(url[index.Int64()])
+		sb.WriteByte(alphanumeric[index.Int64()])
 	}
 
 	return sb.String(), nil
