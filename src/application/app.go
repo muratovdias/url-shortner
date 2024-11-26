@@ -9,6 +9,7 @@ import (
 	http2 "github.com/muratovdias/url-shortner/src/server/http"
 	"github.com/muratovdias/url-shortner/src/service"
 	"github.com/muratovdias/url-shortner/src/service/shortner"
+	"log"
 	"log/slog"
 	"net/http"
 	"os/signal"
@@ -17,8 +18,8 @@ import (
 )
 
 type Application interface {
-	Run() error
-	Exit() error
+	Run()
+	Exit()
 }
 
 type application struct {
@@ -30,7 +31,7 @@ type application struct {
 	cancel context.CancelFunc
 }
 
-func (a *application) Run() error {
+func (a *application) Run() {
 	errChan := make(chan error, 1)
 
 	go func() {
@@ -45,16 +46,16 @@ func (a *application) Run() error {
 	select {
 	case err := <-errChan:
 		if err != nil {
-			return err
+			log.Fatal(err)
 		}
 	case <-a.ctx.Done():
 		a.log.Info("shutting down application")
 	}
 
-	return a.Exit()
+	a.Exit()
 }
 
-func (a *application) Exit() error {
+func (a *application) Exit() {
 	defer a.cancel()
 
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -71,7 +72,6 @@ func (a *application) Exit() error {
 	}
 
 	a.log.Info("application shutdown completed")
-	return nil
 }
 
 func Init() (Application, error) {
@@ -108,7 +108,7 @@ func Init() (Application, error) {
 	serv := service.NewService(urlShortener)
 
 	//init router
-	router := http2.NewRouterImpl(serv)
+	router := http2.NewRouterImpl(serv, app.ds)
 
 	// init http server
 	app.srv = &http.Server{

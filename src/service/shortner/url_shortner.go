@@ -85,13 +85,13 @@ func NewUrlShortener(repo drivers.UrlShortenerRepo, log *slog.Logger) UrlShorten
 
 func (u *urlShortenerImpl) Save(ctx context.Context, url string) (models.Link, error) {
 	if err := u.validateURL(url); err != nil {
-		u.log.Error("invalid URL", err)
+		u.log.Error("invalid URL", err.Error())
 		return models.Link{}, ErrInvalidUrl
 	}
 
 	alias, err := generateShortURL()
 	if err != nil {
-		u.log.Error("failed to generate short url", err)
+		u.log.Error("failed to generate short url", err.Error())
 		return models.Link{}, err
 	}
 
@@ -102,7 +102,7 @@ func (u *urlShortenerImpl) Save(ctx context.Context, url string) (models.Link, e
 		Alias:      alias,
 		ExpireTime: expireTime,
 	}); err != nil {
-		u.log.Error("failed to save short url", err)
+		u.log.Error("failed to save short url", err.Error())
 		if errors.Is(errors.Unwrap(err), models.ErrAlreadyExists) {
 			return models.Link{}, err
 		}

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type urlStatsResponse struct {
+type UrlStatsResponse struct {
 	Clicks     int       `json:"clicks"`
 	LastAccess time.Time `json:"last_access"`
 }
@@ -40,7 +40,7 @@ func (rout *Router) urlStats(w http.ResponseWriter, r *http.Request) {
 	}
 
 	render.Status(r, http.StatusOK)
-	render.JSON(w, r, urlStatsResponse{
+	render.JSON(w, r, UrlStatsResponse{
 		Clicks:     stats.Clicks,
 		LastAccess: stats.LastAccessTime,
 	})

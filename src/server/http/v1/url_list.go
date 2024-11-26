@@ -28,7 +28,7 @@ func (rout *Router) urlsList(w http.ResponseWriter, r *http.Request) {
 
 	render.Status(r, http.StatusOK)
 	render.JSON(w, r, func() []UrlsListResponse {
-		response := make([]UrlsListResponse, len(links))
+		response := make([]UrlsListResponse, 0, len(links))
 		for _, link := range links {
 			response = append(response, UrlsListResponse{
 				Url:     link.Url,

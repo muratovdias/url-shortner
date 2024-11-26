@@ -36,5 +36,5 @@ func (rout *Router) deleteShortLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.Status(r, http.StatusNoContent)
+	render.Status(r, http.StatusOK)
 }
