@@ -14,6 +14,15 @@ type urlStatsResponse struct {
 	LastAccess time.Time `json:"last_access"`
 }
 
+// @Router			/api/v1/{link}/stats [get]
+// @Summary		Получение статистики короткой ссылки
+// @Description	Метод возвращает статистику по указанной короткой ссылке (количество переходов и последнее время доступа).
+// @Tags			Короткие ссылки
+// @Param			link path string true "Алиас короткой ссылки"
+// @Success		200 {object} urlStatsResponse "Успешный ответ со статистикой"
+// @Failure		400 {string} string "Некорректный алиас"
+// @Failure		404 {string} string "Короткая ссылка не найдена"
+// @Failure		500 {string} string "Внутренняя ошибка сервера"
 func (rout *Router) urlStats(w http.ResponseWriter, r *http.Request) {
 	alias := chi.URLParam(r, "link")
 	if alias == "" {

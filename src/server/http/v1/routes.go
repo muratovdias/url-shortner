@@ -21,10 +21,10 @@ func (rout *Router) Routes() chi.Router {
 	router := chi.NewRouter()
 
 	router.Post("/shortener", rout.shortener)
-	router.Get("/{link}", rout.redirectToOriginal)
-	router.Get("/stats/{link}", rout.urlStats)
 	router.Get("/shortener", rout.urlsList)
+	router.Get("/{link}", rout.redirectToOriginal)
 	router.Delete("/{link}", rout.deleteShortLink)
+	router.Get("/stats/{link}", rout.urlStats)
 
 	return router
 }

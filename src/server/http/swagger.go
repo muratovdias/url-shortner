@@ -2,7 +2,8 @@ package http
 
 import (
 	"github.com/go-chi/chi/v5"
-	"net/http"
+	_ "github.com/muratovdias/url-shortner/swagger"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type SwaggerResource struct {
@@ -20,11 +21,7 @@ func NewSwaggerResource(mountPath, basePath string) *SwaggerResource {
 func (sr *SwaggerResource) Routes() chi.Router {
 	r := chi.NewRouter()
 
-	r.Route("/swagger", func(r chi.Router) {
-		// Сервинг файлов в папке "./swagger"
-		fs := http.StripPrefix("/swagger/", http.FileServer(http.Dir("./swagger")))
-		r.Get("/*", http.StripPrefix("/swagger/", fs).ServeHTTP)
-	})
+	r.Get("/*", httpSwagger.WrapHandler)
 
 	return r
 }

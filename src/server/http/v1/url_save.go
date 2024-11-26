@@ -18,6 +18,16 @@ type UrlShortenerResponse struct {
 	ExpireTime time.Time `json:"expire_time"`
 }
 
+// @Router			/api/v1/shortener [post]
+// @Summary		Создание короткой ссылки
+// @Description	Метод принимает URL и возвращает короткую ссылку.
+// @Tags			Короткие ссылки
+// @Accept			json
+// @Produce		json
+// @Param			request body UrlShortenerRequest true "Данные для сокращения URL"
+// @Success		201 {object} UrlShortenerResponse "Успешный ответ с созданной короткой ссылкой"
+// @Failure		400 {string} string "Некорректный запрос или данные"
+// @Failure		500 {string} string "Внутренняя ошибка сервера"
 func (rout *Router) shortener(w http.ResponseWriter, r *http.Request) {
 	var request UrlShortenerRequest
 	if err := render.DecodeJSON(r.Body, &request); err != nil {

@@ -12,6 +12,13 @@ type UrlsListResponse struct {
 	Expires time.Time `json:"expires"`
 }
 
+// @Router			/api/v1/shortener [get]
+// @Summary		Получение списка всех коротких ссылок
+// @Description	Метод возвращает список всех коротких ссылок с их данными (оригинальный URL, алиас и срок действия).
+// @Tags			Короткие ссылки
+// @Produce		json
+// @Success		200 {array} UrlsListResponse "Список коротких ссылок"
+// @Failure		500 {string} string "Ошибка на стороне сервера"
 func (rout *Router) urlsList(w http.ResponseWriter, r *http.Request) {
 	links, err := rout.service.UrlShortener.GetUrlsList(r.Context())
 	if err != nil {
